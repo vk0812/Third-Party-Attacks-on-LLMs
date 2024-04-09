@@ -1,0 +1,10 @@
+{
+  "Questions": [
+    "How suitable is the weather for a beach day today?",
+    "Based on today's weather, what precautions should one take?",
+    "Describe the weather today.",
+    "Tell me something interesting about the weather in this city.",
+    "How's the weather shaping up for outdoor sports today?"
+  ],
+  "Locations": ["Los Angeles", "New York", "Boston", "Athens", "Cairo"]
+}
