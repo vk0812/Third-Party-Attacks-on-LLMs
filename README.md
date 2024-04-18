@@ -1,6 +1,6 @@
 # Attacks on Third-Party APIs of LLMs
 
-This repository focuses specifically on WeatherAPI Attacks on the Gemini Model. We demonstrate real-world attacks across various domains, where malicious actors can subtly manipulate the outputs of LLMs by compromising the third-party API responses. The research highlights the urgent need for robust security protocols when incorporating external services into LLM ecosystems. 
+This repository focuses specifically on WeatherAPI Attacks on the Gemini/GPT-3.5 Model. We demonstrate real-world attacks across various domains, where malicious actors can subtly manipulate the outputs of LLMs by compromising the third-party API responses. The research highlights the urgent need for robust security protocols when incorporating external services into LLM ecosystems. 
 
 Follow these steps to set up and run the attacks: 
 
