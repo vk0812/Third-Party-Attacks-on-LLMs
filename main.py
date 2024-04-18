@@ -4,6 +4,7 @@ import argparse
 import requests
 import config
 import attack
+import pdb
 
 def flatten_dict(nested_dict, parent_key='', sep='.'):
     items = []
@@ -26,9 +27,6 @@ args = parser.parse_args()
 atk_mode = args.atk_mode
 atk_method = args.atk_method
 
-# Your openai key
-os.environ["OPENAI_API_KEY"] = config.OPENAI_API_KEY
-
 # The API key and url
 os.environ["API_KEY"] = config.API_KEY
 # os.environ["X-RapidAPI-Host"] = config.API_HOST
@@ -41,6 +39,7 @@ url = config.API_URL
 dir_path = os.path.dirname(os.path.realpath(__file__))
 file_path = os.path.join(dir_path, 'question_set_weather.json')
 
+# pdb.set_trace() 
 with open(file_path) as question_set:
     question_set_json = json.load(question_set)
     question_set.close()

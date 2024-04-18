@@ -1,5 +1,6 @@
 import google.generativeai as genai
-import gemini
+from openai import OpenAI
+import llms
 from Techniques.Weather import insertion, deletion, substitution
 import json
 import copy
@@ -54,8 +55,7 @@ class Attack:
                         else:
                             # Call llm_runner only if the question is not in the file
                             chain = llm_runner(response, response, question, False)
-                            exp_benign_result = {"original_response": json.dumps(response), "original_answer": chain.text}
-                            # exp_benign_result = {"original_response": json.dumps(response), "original_answer": chain}
+                            exp_benign_result = {"original_response": json.dumps(response), "original_answer": chain}
                             exp_result = {question: exp_benign_result}
 
                             # Update the record_json with new question and answer
@@ -67,8 +67,7 @@ class Attack:
                 except FileNotFoundError:
                     # If the file does not exist, create it and write the new question and answer
                     chain = llm_runner(response, response, question, False)
-                    exp_benign_result = {"original_response": json.dumps(response), "original_answer": chain.text}
-                    # exp_benign_result = {"original_response": json.dumps(response), "original_answer": chain}
+                    exp_benign_result = {"original_response": json.dumps(response), "original_answer": chain}
                     exp_result = {question: exp_benign_result}
 
                     with open("experiment_result.json", encoding='utf-8', mode="w") as output:
@@ -76,7 +75,7 @@ class Attack:
 
 # Function to record the experiment result
 def record_result(chain, exp_ids_results, attack_id, response_tamper, important_elements):
-    llm_answer = chain.text
+    llm_answer = chain
     # llm_answer = chain
     exp = {"modified_elements": important_elements, "api_response": response_tamper, "answer": llm_answer}
     exp_ids_results[attack_id] = exp
@@ -85,17 +84,24 @@ def record_result(chain, exp_ids_results, attack_id, response_tamper, important_
 # Function to run the langchain
 def llm_runner(default_response, response_tamper, question, attack):
     # OpenAI
-    # llm = OpenAI(temperature=0, model_name="text-davinci-003")
+    llm = OpenAI(api_key=config.OPENAI_API_KEY)
 
-    # Gemini
-    genai.configure(api_key=config.GEMINI_API_KEY)
-
-    llm = genai.GenerativeModel('gemini-pro')
-    chain = gemini.gemini_llm(llm, question, attack, api_default_response=json.dumps(default_response),api_tamper_response=json.dumps(response_tamper))
+    chain = llms.gpt_llm(llm, question, attack, api_default_response=json.dumps(default_response),api_tamper_response=json.dumps(response_tamper))
 
     print()
 
-    return chain
+    return chain.content
+
+
+    # Gemini
+    # genai.configure(api_key=config.GEMINI_API_KEY)
+
+    # llm = genai.GenerativeModel('gemini-pro')
+    # chain = llms.gemini_llm(llm, question, attack, api_default_response=json.dumps(default_response),api_tamper_response=json.dumps(response_tamper))
+
+    # print()
+
+    # return chain.text
 
 
 # "experiment_result.json"
